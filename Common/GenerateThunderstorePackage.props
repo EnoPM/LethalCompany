@@ -1,0 +1,27 @@
+<Project>
+    <Target Name="AutoGenerateManifest" AfterTargets="AfterBuild" Inputs="$(MSBuildAllProjects)" Outputs="$(IntermediateOutputPath)GeneratedFile.cs">
+        <PropertyGroup>
+            <BepInExPluginGuid Condition="'$(BepInExPluginGuid)' == ''">$(PluginGuid)</BepInExPluginGuid>
+            <BepInExPluginName Condition="'$(BepInExPluginName)' == ''">$(Product)</BepInExPluginName>
+            <BepInExPluginVersion Condition="'$(BepInExPluginVersion)' == ''">$(Version)</BepInExPluginVersion>
+            <GeneratedText>{
+  "name": "$(Product)",
+  "description": "$(Description)",
+  "version_number": "$(Version)",
+  "dependencies": ["BepInEx-BepInExPack-5.4.2100"],
+  "website_url": "$(WebsiteUrl)"
+}</GeneratedText>
+            <GeneratedFilePath>$(OutputPath)thunderstore-package/manifest.json</GeneratedFilePath>
+        </PropertyGroup>
+        <ItemGroup>
+            <Compile Include="$(GeneratedFilePath)" />
+            <FileWrites Include="$(GeneratedFilePath)" />
+        </ItemGroup>
+        <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true" />
+    </Target>
+    <Target Name="CopyFilesToPackageDirectory" AfterTargets="AfterBuild">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(OutputPath)thunderstore-package" />
+        <Copy SourceFiles="$(ProjectDirectory)README.md" DestinationFolder="$(OutputPath)thunderstore-package" />
+        <Copy SourceFiles="$(SolutionDir)Common/icon.png" DestinationFolder="$(OutputPath)thunderstore-package" />
+    </Target>
+</Project>

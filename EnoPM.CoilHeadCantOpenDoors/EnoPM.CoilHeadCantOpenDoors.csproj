@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>EnoPM.CoilHeadCantOpenDoors</AssemblyName>
+        <PluginGuid>coilheadcantopendoors.lc.eno.pm</PluginGuid>
+        <Product>CoilHeadCantOpenDoors</Product>
+        <Description>A Lethal Company mod that prevents Coil Heads from opening doors</Description>
+        <Version>1.0.0</Version>
+        <WebSiteUrl>https://github.com/EnoPM/LethalCompany</WebSiteUrl>
+        <RootNamespace>EnoPM.CoilHeadCantOpenDoors</RootNamespace>
+    </PropertyGroup>
+
+    <Import Project="../Common/LethalCompanyPlugin.props" />
+</Project>
