@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoPM.CoilHeadCantOpenDoors
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoPM.InfiniteShotgunWithReload", "EnoPM.InfiniteShotgunWithReload\EnoPM.InfiniteShotgunWithReload.csproj", "{A5EEBF61-8D37-4EA8-AB38-5350D27007A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoPM.LethalCompanyPlus", "EnoPM.LethalCompanyPlus\EnoPM.LethalCompanyPlus.csproj", "{25758AAA-3971-41A9-8532-3E0391C94A39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoPM.EasyZapGun", "EnoPM.EasyZapGun\EnoPM.EasyZapGun.csproj", "{CD7AF5AD-9A64-45D0-9D1A-8C0F2C642CD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{A5EEBF61-8D37-4EA8-AB38-5350D27007A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5EEBF61-8D37-4EA8-AB38-5350D27007A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5EEBF61-8D37-4EA8-AB38-5350D27007A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25758AAA-3971-41A9-8532-3E0391C94A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25758AAA-3971-41A9-8532-3E0391C94A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25758AAA-3971-41A9-8532-3E0391C94A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25758AAA-3971-41A9-8532-3E0391C94A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD7AF5AD-9A64-45D0-9D1A-8C0F2C642CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD7AF5AD-9A64-45D0-9D1A-8C0F2C642CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD7AF5AD-9A64-45D0-9D1A-8C0F2C642CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD7AF5AD-9A64-45D0-9D1A-8C0F2C642CD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
