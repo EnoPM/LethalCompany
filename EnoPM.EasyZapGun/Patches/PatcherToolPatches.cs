@@ -8,7 +8,7 @@ internal static class PatcherToolPatches
     [HarmonyPrefix, HarmonyPatch(nameof(PatcherTool.ShiftBendRandomizer))]
     private static void ShiftBendRandomizerPrefix(PatcherTool __instance)
     {
-        if (!HostConfig.IsSynced() || !Plugin.HostConfig.DisableGunOverheat)
+        if (!HostConfig.IsSynced() || !Plugin.HostConfig.Enabled)
         {
             return;
         }

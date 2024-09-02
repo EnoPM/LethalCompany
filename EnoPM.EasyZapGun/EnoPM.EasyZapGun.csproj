@@ -4,7 +4,7 @@
         <PluginGuid>easyzapgun.lc.eno.pm</PluginGuid>
         <Product>EasyZapGun</Product>
         <Description>Makes the Zap gun easy to use</Description>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <WebSiteUrl>https://github.com/EnoPM/LethalCompany</WebSiteUrl>
         <RootNamespace>EnoPM.EasyZapGun</RootNamespace>
         <ExtraThunderstoreDependencies>Sigurd-CSync-5.0.1</ExtraThunderstoreDependencies>
