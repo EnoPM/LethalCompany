@@ -1,20 +1,29 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
+using BepInEx.Logging;
 using HarmonyLib;
 
 namespace EnoPM.EasyZapGun;
 
 [BepInPlugin(ProjectInfos.Guid, ProjectInfos.Name, ProjectInfos.Version)]
+[BepInDependency("com.sigurd.csync", "5.0.1")]
 public class Plugin : BaseUnityPlugin
 {
     private static readonly Harmony HarmonyPatcher = new(ProjectInfos.Guid);
     
-    internal static ConfigEntry<bool> DisableGunOverheat { get; private set; }
+    public static HostConfig HostConfig { get; private set; }
+    public static ManualLogSource Log { get; private set; }
     
     private void Awake()
     {
-        DisableGunOverheat = Config.Bind("Zap Gun", "DisableOverheat", true, "Disable Zap gun overheat");
+        Log = Logger;
+        
+        Config.SaveOnConfigSet = false;
+        HostConfig = new HostConfig(Config);
+        Config.Save();
+        
         HarmonyPatcher.PatchAll();
         Logger.LogInfo($"Plugin {ProjectInfos.Guid} is loaded!");
+        
+        HostConfig.InitialSyncCompleted += HostConfig.OnInitialSyncCompleted;
     }
 }
