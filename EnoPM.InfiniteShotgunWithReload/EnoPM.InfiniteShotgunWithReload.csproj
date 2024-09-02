@@ -1,13 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    
     <PropertyGroup>
         <AssemblyName>EnoPM.InfiniteShotgunWithReload</AssemblyName>
         <PluginGuid>infiniteshotgunwithreload.lc.eno.pm</PluginGuid>
         <Product>InfiniteShotgunWithReload</Product>
         <Description>A Lethal Company mod that allows you to reload the shotgun without having any shells</Description>
-        <Version>1.0.0</Version>
+        <Version>1.0.2</Version>
         <WebSiteUrl>https://github.com/EnoPM/LethalCompany</WebSiteUrl>
         <RootNamespace>EnoPM.InfiniteShotgunWithReload</RootNamespace>
+        <ExtraThunderstoreDependencies>Sigurd-CSync-5.0.1</ExtraThunderstoreDependencies>
     </PropertyGroup>
-
-    <Import Project="../Common/LethalCompanyPlugin.props" />
+    
+    <ItemGroup>
+      <Reference Include="com.sigurd.csync">
+        <HintPath>$(SolutionDir)\Common\Libs\com.sigurd.csync.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    
+    <Import Project="$(SolutionDir)/Common/LethalCompanyPlugin.props" />
+    
 </Project>

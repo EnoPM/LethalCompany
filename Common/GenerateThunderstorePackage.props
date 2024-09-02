@@ -4,14 +4,27 @@
             <BepInExPluginGuid Condition="'$(BepInExPluginGuid)' == ''">$(PluginGuid)</BepInExPluginGuid>
             <BepInExPluginName Condition="'$(BepInExPluginName)' == ''">$(Product)</BepInExPluginName>
             <BepInExPluginVersion Condition="'$(BepInExPluginVersion)' == ''">$(Version)</BepInExPluginVersion>
+            <ThunderstorePackageDirectories>$(SolutionDir)/ThunderstorePackages</ThunderstorePackageDirectories>
+            <ThunderstorePackageDirectory>$(ThunderstorePackageDirectories)/$(BepInExPluginName)</ThunderstorePackageDirectory>
+            <DefaultThunderstoreDependencies>BepInEx-BepInExPack-5.4.2100</DefaultThunderstoreDependencies>
+        </PropertyGroup>
+        <PropertyGroup Condition="$(ExtraThunderstoreDependencies) == ''">
+            <AllThunderstoreDependencies>$(DefaultThunderstoreDependencies)</AllThunderstoreDependencies>
+        </PropertyGroup>
+        <PropertyGroup Condition="$(ExtraThunderstoreDependencies) != ''">
+            <AllThunderstoreDependencies>$(DefaultThunderstoreDependencies);$(ExtraThunderstoreDependencies)</AllThunderstoreDependencies>
+        </PropertyGroup>
+        <PropertyGroup>
+            <!-- Nettoyer la liste des dépendances -->
+            <FormattedThunderstoreDependencies>[ "$([System.String]::new($(AllThunderstoreDependencies)).Replace(';', '", "'))" ]</FormattedThunderstoreDependencies>
             <GeneratedText>{
   "name": "$(Product)",
   "description": "$(Description)",
   "version_number": "$(Version)",
-  "dependencies": ["BepInEx-BepInExPack-5.4.2100"],
+  "dependencies": $(FormattedThunderstoreDependencies),
   "website_url": "$(WebsiteUrl)"
 }</GeneratedText>
-            <GeneratedFilePath>$(OutputPath)thunderstore-package/manifest.json</GeneratedFilePath>
+            <GeneratedFilePath>$(ThunderstorePackageDirectory)/manifest.json</GeneratedFilePath>
         </PropertyGroup>
         <ItemGroup>
             <Compile Include="$(GeneratedFilePath)" />
@@ -20,8 +33,15 @@
         <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true" />
     </Target>
     <Target Name="CopyFilesToPackageDirectory" AfterTargets="AfterBuild">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(OutputPath)thunderstore-package" />
-        <Copy SourceFiles="$(ProjectDirectory)README.md" DestinationFolder="$(OutputPath)thunderstore-package" />
-        <Copy SourceFiles="$(SolutionDir)Common/icon.png" DestinationFolder="$(OutputPath)thunderstore-package" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ThunderstorePackageDirectory)" />
+        <Copy SourceFiles="$(ProjectDirectory)README.md" DestinationFolder="$(ThunderstorePackageDirectory)" />
+        <Copy SourceFiles="$(SolutionDir)Common/icon.png" DestinationFolder="$(ThunderstorePackageDirectory)" />
+    </Target>
+    <Target Name="CreateZipArchive" AfterTargets="AfterBuild">
+        <PropertyGroup>
+            <ZipFilePath>$(ThunderstorePackageDirectories)\$(BepInExPluginName).$(BepInExPluginVersion).zip</ZipFilePath>
+        </PropertyGroup>
+        
+        <Exec Command="powershell -NoProfile -Command &quot;if (Test-Path '$(ZipFilePath)') { Remove-Item '$(ZipFilePath)' -Force }; Compress-Archive -Path '$(ThunderstorePackageDirectory)\*' -DestinationPath '$(ZipFilePath)'&quot;" />
     </Target>
 </Project>

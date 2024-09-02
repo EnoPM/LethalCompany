@@ -11,76 +11,12 @@ internal static class ButlerEnemyAIPatches
 {
     private static readonly int Popping = Animator.StringToHash("Popping");
     private static readonly int PopFinish = Animator.StringToHash("popFinish");
-    private static readonly int Stunned = Animator.StringToHash("Stunned");
-    private static readonly int Stunned1 = Animator.StringToHash("stunned");
-    private static readonly int Stun = Animator.StringToHash("stun");
-    private static readonly int Dead = Animator.StringToHash("Dead");
 
-    [HarmonyPrefix, HarmonyPatch(nameof(ButlerEnemyAI.KillEnemy))]
-    private static bool KillEnemyPrefix(ButlerEnemyAI __instance, bool destroy)
+    [HarmonyPrefix, HarmonyPatch(nameof(ButlerEnemyAI.ButlerBlowUpAndPop))]
+    private static bool ButlerBlowUpAndPopPrefix(ButlerEnemyAI __instance, out IEnumerator __result)
     {
-        __instance.OriginalKillEnemy(destroy);
-        if (__instance.currentSearch.inProgress)
-            __instance.StopSearch(__instance.currentSearch);
-        __instance.ambience1.Stop();
-        __instance.ambience1.volume = 0.0f;
-        __instance.ambience2.Stop();
-        __instance.ambience2.volume = 0.0f;
-        __instance.agent.speed = 0.0f;
-        __instance.agent.acceleration = 1000f;
-        if (__instance.startedButlerDeathAnimation) return false;
-        __instance.startedButlerDeathAnimation = true;
-        __instance.StartCoroutine(__instance.CoButlerBlowUpAndPop());
+        __result = __instance.CoButlerBlowUpAndPop();
         return false;
-    }
-
-    private static void OriginalKillEnemy(this EnemyAI enemyAi, bool destroy = false)
-    {
-        Debug.Log($"Kill enemy called; destroy: {destroy}");
-        if (destroy)
-        {
-            if (!enemyAi.IsServer)
-                return;
-            Debug.Log("Despawn network object in kill enemy called!");
-            if (!enemyAi.thisNetworkObject.IsSpawned)
-                return;
-            enemyAi.thisNetworkObject.Despawn();
-        }
-        else
-        {
-            var componentInChildren = enemyAi.gameObject.GetComponentInChildren<ScanNodeProperties>();
-            if (componentInChildren)
-            {
-                var collider = componentInChildren.gameObject.GetComponent<Collider>();
-                if (collider)
-                {
-                    collider.enabled = false;
-                }
-            }
-            enemyAi.isEnemyDead = true;
-            if (enemyAi.creatureVoice)
-            {
-                enemyAi.creatureVoice.PlayOneShot(enemyAi.dieSFX);
-            }
-            try
-            {
-                if (enemyAi.creatureAnimator)
-                {
-                    enemyAi.creatureAnimator.SetBool(Stunned, false);
-                    enemyAi.creatureAnimator.SetBool(Stunned1, false);
-                    enemyAi.creatureAnimator.SetBool(Stun, false);
-                    enemyAi.creatureAnimator.SetTrigger(nameof (EnemyAI.KillEnemy));
-                    enemyAi.creatureAnimator.SetBool(Dead, true);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"enemy did not have bool in animator in KillEnemy, error returned; {ex}");
-            }
-            enemyAi.CancelSpecialAnimationWithPlayer();
-            enemyAi.SubtractFromPowerLevel();
-            enemyAi.agent.enabled = false;
-        }
     }
     
     private static IEnumerator CoButlerBlowUpAndPop(this ButlerEnemyAI butlerEnemyAi)
@@ -104,6 +40,7 @@ internal static class ButlerEnemyAIPatches
             HUDManager.Instance.ShakeCamera(ScreenShakeType.Big);
         if (butlerEnemyAi.IsServer)
         {
+            //RoundManager.Instance.SpawnEnemyGameObject(butlerEnemyAi.transform.position, 0.0f, -1, butlerEnemyAi.butlerBeesEnemyType);
             UnityEngine.Object.Instantiate(butlerEnemyAi.knifePrefab, butlerEnemyAi.transform.position + Vector3.up * 0.5f, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer).GetComponent<NetworkObject>().Spawn();
         }
     }
