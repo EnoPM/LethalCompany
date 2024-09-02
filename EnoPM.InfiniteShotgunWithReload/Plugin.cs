@@ -5,6 +5,7 @@ using HarmonyLib;
 namespace EnoPM.InfiniteShotgunWithReload;
 
 [BepInPlugin(ProjectInfos.Guid, ProjectInfos.Name, ProjectInfos.Version)]
+[BepInDependency("com.sigurd.csync", "5.0.1")]
 public sealed class Plugin : BaseUnityPlugin
 {
     private static readonly Harmony HarmonyPatcher = new(ProjectInfos.Guid);

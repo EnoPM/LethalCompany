@@ -5,7 +5,7 @@
         <PluginGuid>infiniteshotgunwithreload.lc.eno.pm</PluginGuid>
         <Product>InfiniteShotgunWithReload</Product>
         <Description>A Lethal Company mod that allows you to reload the shotgun without having any shells</Description>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <WebSiteUrl>https://github.com/EnoPM/LethalCompany</WebSiteUrl>
         <RootNamespace>EnoPM.InfiniteShotgunWithReload</RootNamespace>
         <ExtraThunderstoreDependencies>Sigurd-CSync-5.0.1</ExtraThunderstoreDependencies>
